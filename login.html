@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Login Page</title>
+    <!-- Import Inter from Google Fonts for a clean UI font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="log.css">
+</head>
+<body>
+    <section>
+    <div class="login-box">
+        <form action="/login" method="POST">
+    <h2>Sign in</h2>
+            <div class="input-box">
+                <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                <input type="email" placeholder=" " required>
+                <label>Email</label>
+            </div>
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                <button type="button" class="toggle-password" id="togglePassword" onclick="togglePass()">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </button>
+                <input type="password" id="password" placeholder=" " required>
+                <label>Password</label>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox" name="remember"> Remember Me</label>
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+            <button type="submit"><span>Sign in</span></button>
+
+            <!-- separator between primary sign-in and social sign-in -->
+            <div class="or-separator"><span>or</span></div>
+
+            <!-- Social sign-in buttons -->
+            <div class="social-buttons">
+                <button type="button" class="social-btn google">
+                    <ion-icon name="logo-google"></ion-icon>
+                    <span>Sign in with Google</span>
+                </button>
+
+                <button type="button" class="social-btn facebook">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                    <span>Sign in with Facebook</span>
+                </button>
+            </div>
+
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
+            
+        </form>
+        
+    </div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        // Password toggle function
+        function togglePass() {
+            var password = document.getElementById("password");
+            var icon = document.querySelector("#togglePassword ion-icon");
+            
+            if (password.type === "password") {
+                password.type = "text";
+                icon.name = "eye-off-outline";
+            } else {
+                password.type = "password";
+                icon.name = "eye-outline";
+            }
+        }
+
+        // Ripple effect for submit button
+        document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+            const button = e.currentTarget;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size/2;
+            const y = e.clientY - rect.top - size/2;
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.classList.add('ripple');
+            
+            button.appendChild(ripple);
+            
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        });
+
+        // Form validation on submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.querySelector('input[type="email"]');
+            const password = document.querySelector('#password');
+            let isValid = true;
+
+            if (!email.checkValidity()) {
+                alert('Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!password.value) {
+                alert('Please enter your password');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Form is valid, you can submit it
+                this.submit();
+            }
+        });
+    </script>
+</body>
+</html>
